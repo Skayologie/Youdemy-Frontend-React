@@ -6,19 +6,21 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 function Home() {
     const [data, setData] = useState([]);
+    const apiUrl = import.meta.env.VITE_URL_API
 
     useEffect(() => {
     const fetchData = async () => {
         try {
-        const response = await axios.get("http://127.0.0.1:4848/api/V1/Courses");
+        const response = await axios.get(`${apiUrl}/Courses`);
         setData(Array.isArray(response.data) ? response.data : response.data.data);
-        } catch (error) {
+        console.log(response)
+      } catch (error) {
         console.error("Error fetching data:", error);
         }
-        console.log(data)
     };
     fetchData();
     }, []);
+
   return (
     <div>
       <div className='p-5 flex justify-between items-center'>

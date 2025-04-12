@@ -112,7 +112,7 @@ function ResponsiveAppBar() {
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex'  } , gap:'20px' }}>
             {pages.map((page) => (
               <Link
                 to={page[1]}

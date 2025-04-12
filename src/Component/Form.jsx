@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useEffect, useState } from 'react'
 import axios from "axios";
+const apiUrl = import.meta.env.VITE_URL_API
 
 
 export default function InputS({Label,Type,id,name,placeholder="",change}) {
@@ -26,7 +27,7 @@ export function SelectOption({Label,id,name,placeholder="",change}) {
     const [data,setData] = useState();
     useEffect(()=>{
             const GetCategories = async () =>{
-                const response = await axios.get("http://127.0.0.1:4848/api/V1/Categories");
+                const response = await axios.get(`${apiUrl}/Categories`);
                 setData(Array.isArray(response.data) ? response.data : response.data.data);
             }
             

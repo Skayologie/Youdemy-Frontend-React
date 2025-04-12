@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Share2, Heart, ShoppingBag, Edit, X } from 'lucide-react';
+import { Share2, Heart, ShoppingBag, Edit, X, Delete, Trash } from 'lucide-react';
 import axios from "axios";
 import { toast } from 'react-hot-toast';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -15,6 +15,7 @@ interface SingleCourseProps {
   imageUrl?: string;
 }
 
+
 function SingleCourse({
   title: initialTitle,
   content: initialContent,
@@ -23,6 +24,8 @@ function SingleCourse({
   price: initialPrice = "29.00",
   imageUrl = "https://i.pinimg.com/736x/72/3f/66/723f6680a44137670ab57b8e2b1b872c.jpg"
 }: SingleCourseProps) {
+
+  const apiUrl: string = import.meta.env.VITE_URL_API;
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     title: initialTitle,
@@ -32,25 +35,26 @@ function SingleCourse({
     price: initialPrice,
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
+  const handleInputChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
 
-  const { id } = useParams(); // ✅ move this outside
+  const { id } = useParams(); 
   
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsEditing(false);
   
     try {
       const payload = JSON.stringify(formData);
-      console.log("this is the payload: " + payload);
+      console.log("this is the payload: " + formData);
   
       const response = await axios.put(
-        `http://127.0.0.1:4848/api/V1/Courses/${id}`,
+        `${apiUrl}/Courses/${id}`,
         payload,
         {
           headers: {
@@ -58,14 +62,44 @@ function SingleCourse({
           },
         }
       );
-  
-      console.log("✅ Success:", response);
-      toast.success(response.data.message);
+      if(response){
+        console.log("✅ Success:", response);
+        toast.success(response.data.message);
+      }else{
+        console.error("❌ Error:");
+
+      }
+      
     } catch (error: any) {
       console.error("❌ Error:", error);
       toast.error(error?.response?.data?.message || "Something went wrong!");
     }
   };
+  const navigate = useNavigate();
+  const handleDelete = async (e) =>{
+    e.preventDefault();
+    try{
+        const response = await axios.delete(
+        `${apiUrl}/Courses/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if(response){
+        toast.success(response.data.original.message);
+        navigate('/');
+
+      }else{
+        console.error("❌ Error:");
+
+      }
+    }catch(error ){
+      console.error("❌ Error:", error);
+
+    }
+  }
   
 
   return (
@@ -99,6 +133,13 @@ function SingleCourse({
                 aria-label="Share"
               >
                 <Share2 className="w-5 h-5 text-gray-600" />
+              </button>
+              <button 
+                onClick={handleDelete}
+                className="p-2 hover:bg-gray-100 rounded-full transition duration-200"
+                aria-label="Share"
+              >
+                <Trash className="w-5 h-5 text-gray-600" />
               </button>
             </div>
           </div>

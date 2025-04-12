@@ -4,12 +4,13 @@ import { useState , useEffect } from 'react'
 import axios from "axios";
 import SingleCourse from "./Component/SingleCourse"
 function CourseDetails() {
+    const apiUrl = import.meta.env.VITE_URL_API
     const { id } = useParams();
     const [data, setData] = useState([]);
         useEffect(() => {
         const fetchData = async () => {
                 try {
-                    const response = await axios.get("http://127.0.0.1:4848/api/V1/Courses/"+id);
+                    const response = await axios.get(apiUrl+"/Courses/"+id);
                     setData(Array.isArray(response.data) ? response.data : response.data.data);
                 } catch (error) {
                     console.error("Error fetching data:", error);
@@ -27,7 +28,6 @@ function CourseDetails() {
                         category={data[0].category}
                         description={data[0].description}
                     />
-                    
                 </div>
             )
         }
