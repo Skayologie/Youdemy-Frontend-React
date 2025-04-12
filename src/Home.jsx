@@ -31,16 +31,16 @@ function Home() {
           </Button>
         </Link>
       </div>
-      <div className='flex justify-center flex-wrap gap-5'>
-      {data.length === 0 ? (
-        <p>Loading...</p>
-      ) : (
-        data.map((course) => (
-          <Link to={"/Course/"+course.courseId}>
-            <CardCourse title={course.title} description={course.description} />
-          </Link>
-        ))
-      )}
+      <div id='WhereForSearch' className='flex justify-center flex-wrap gap-5'>
+        {data.length === 0 ? (
+          <p>Loading...</p>
+        ) : (
+          data.map((course) => (
+            <Link to={"/Course/"+course.courseId}>
+              <CardCourse title={course.title} description={course.description} />
+            </Link>
+          ))
+        )}
     </div>
     </div>
   )

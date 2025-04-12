@@ -2,6 +2,8 @@ import React from 'react';
 
 import { useEffect, useState } from 'react'
 import axios from "axios";
+import TextField from "@mui/material/TextField";
+
 const apiUrl = import.meta.env.VITE_URL_API
 
 
@@ -49,4 +51,16 @@ export function SelectOption({Label,id,name,placeholder="",change}) {
             </>
         );
     }
+  }
+
+
+  
+  export function SearchBar({changeF}) {
+    return (
+      <div className="main">
+        <div className="search">
+          <InputS id="outlined-basic" name={"searchCourse"} Type={"search"} placeholder='Search' change={changeF}  />
+        </div>
+      </div>
+    );
   }
